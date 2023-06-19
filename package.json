@@ -1,0 +1,29 @@
+{
+  "name": "asexualbot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "author": {
+    "name": "asexual",
+    "email": "luishdevz@gmail.com"
+  },
+  "scripts": {
+    "start": "tsc && node dist/src/index.js",
+    "lint": "eslint src/ --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "commands": "tsc && node dist/src/register_commands.js --dev",
+    "commands:prod": "ts-node dist/src/register_commands.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.11.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "eslint": "^8.0.1",
+    "eslint-config-standard-with-typescript": "^35.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "typescript": "*"
+  }
+}
