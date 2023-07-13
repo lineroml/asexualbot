@@ -1,9 +1,16 @@
 // Require the necessary discord.js classes
 import { Client, Events, GatewayIntentBits, BaseInteraction } from 'discord.js';
-import { token } from './../config.json';
+
+// Create a new dotenv config
+dotenv.config();
+
+import dotenv from 'dotenv';
 import ping from './commands/ping';
 import server from './commands/server';
 import user from './commands/user';
+import riot from './commands/riot';
+
+const TOKEN = process.env.DISCORD_TOKEN;
 
 type Command = {
   name: string;
@@ -25,6 +32,10 @@ const commands: Command[] = [
     name: user.data.name,
     run: user.execute,
   },
+  {
+    name: riot.data.name,
+    run: riot.execute,
+  },
 ];
 
 // When the client is ready, run this code (only once)
@@ -42,4 +53,4 @@ client.on(Events.InteractionCreate, async (interaction: BaseInteraction) => {
 });
 
 // Log in to Discord with your client's token
-client.login(token);
+client.login(TOKEN);

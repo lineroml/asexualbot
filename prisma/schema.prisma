@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model DiscordUser {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  discordId String   @unique
+}
+
+model DiscordGuild {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  discordId String   @unique
+}
+
+model RiotSummoner {
+  id                         String                       @id @default(cuid())
+  createdAt                  DateTime                     @default(now())
+  updatedAt                  DateTime                     @updatedAt
+  accountId                  String                       @unique
+  summonerName               String                       @unique
+  summonerPuuid              String                       @unique
+  summonerLevel              Int
+  profileIconId              Int
+  RiotLeagueMatchParticipant RiotLeagueMatchParticipant[]
+}
+
+model RiotLeagueMatch {
+  id                         String                       @id @default(cuid())
+  matchId                    String                       @unique
+  createdAt                  DateTime                     @default(now())
+  updatedAt                  DateTime                     @updatedAt
+  gameDuration               Int
+  gameMode                   String
+  gameVersion                String
+  gameQueue                  String
+  RiotLeagueMatchParticipant RiotLeagueMatchParticipant[]
+}
+
+model RiotLeagueChampion {
+  id                  String                       @id @default(cuid())
+  championId          Int                          @unique
+  championName        String                       @unique
+  championVerboseName String                       @unique
+  createdAt           DateTime                     @default(now())
+  updatedAt           DateTime                     @updatedAt
+  matchParticipations RiotLeagueMatchParticipant[]
+}
+
+model RiotLeagueMatchParticipant {
+  id            String             @id @default(cuid())
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  summonerPuuid String
+  summoner      RiotSummoner       @relation(fields: [summonerPuuid], references: [summonerPuuid])
+  matchId       String
+  match         RiotLeagueMatch    @relation(fields: [matchId], references: [id])
+  kills         Int
+  deaths        Int
+  assists       Int
+  win           Boolean
+  championId    Int
+  champion      RiotLeagueChampion @relation(fields: [championId], references: [championId])
+}
